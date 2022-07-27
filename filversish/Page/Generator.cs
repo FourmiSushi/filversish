@@ -22,8 +22,9 @@ public class Generator
         var template = _fileAccess.ReadFile($"{_configuration.ThemesPath}/page.html");
         return pagePosts.Select((a, i) =>
         {
+            var orderedPosts = a.OrderByDescending(p => p.PublishedAt).ToList();
             var page = new Page(
-                a,
+                orderedPosts,
                 i,
                 pagePosts.Count,
                 $"{_configuration.DestPath}/pages/{i}/index.html"
