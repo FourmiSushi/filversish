@@ -1,0 +1,21 @@
+﻿name: リリースを作成する
+
+on:
+  push:
+    branches:
+      - デフォルト
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        run: ./build.sh
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            gh-build/linux/filversish
+            gh-build/macos/filversish
+            gh-build/windows/filversish.exe
