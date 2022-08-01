@@ -2,8 +2,6 @@
 
 on:
   push:
-    branches:
-      - デフォルト    
     tags:
       - "v*.*.*"
 jobs:
