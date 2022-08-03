@@ -14,7 +14,7 @@ public class Publisher
         _configuration = configuration;
     }
 
-    private void PublishPosts(List<Post.Post> posts)
+    private void PublishPosts(List<Post> posts)
     {
         foreach (var post in posts)
         {
@@ -23,7 +23,7 @@ public class Publisher
         }
     }
 
-    private void PublishPages(List<Page.Page> pages)
+    private void PublishPages(List<Page> pages)
     {
         foreach (var page in pages)
         {
@@ -32,7 +32,7 @@ public class Publisher
         }
     }
 
-    private void CopyAssets()
+    private void PublishAssets()
     {
         var s = $"{_configuration.AssetsPath}";
         var d = $"{_configuration.DestPath}/assets";
@@ -43,19 +43,19 @@ public class Publisher
         _fileAccess.CopyDirectory(s, d);
     }
 
-    public void Publish(List<Post.Post> posts, List<Page.Page> pages)
+    public void Publish(List<Post> posts, List<Page> pages)
     {
         PublishPosts(posts);
         PublishPages(pages);
 
         _fileAccess.CopyFile($"{_configuration.DestPath}/pages/0/index.html", $"{_configuration.DestPath}/index.html");
 
-        CopyAssets();
+        PublishAssets();
     }
 
     private string ApplyCommonTemplate(string title, string body)
     {
-        var template = _fileAccess.ReadFile($"{_configuration.ThemesPath}/common.html");
+        var template = _fileAccess.ReadFile($"{_configuration.ThemePath}/common.html");
         var html = Template.Parse(template).Render(new
         {
             _configuration.Title, _configuration.Description, PostTitle = title, Body = body

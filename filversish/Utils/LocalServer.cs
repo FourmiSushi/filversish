@@ -5,7 +5,7 @@ using GenHTTP.Modules.StaticWebsites;
 
 namespace filversish.Utils;
 
-public class LocalServer
+public static class LocalServer
 {
     public static void Start(string path)
     {

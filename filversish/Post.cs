@@ -1,6 +1,10 @@
-﻿using Markdig;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+// ReSharper disable NotAccessedField.Global
 
-namespace filversish.Post;
+using Markdig;
+
+namespace filversish;
 
 public class Post
 {
@@ -11,7 +15,7 @@ public class Post
     public string BodyRaw;
     public string BodyPlain;
     public string BodyHtml;
-    public string Html;
+    public string Html = null!;
     public string SavePath;
     public string Link;
 

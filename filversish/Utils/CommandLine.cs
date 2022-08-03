@@ -17,17 +17,10 @@ public static class CommandLine
 Build specified directory using config.toml in it.
 If 'dir' is null, filversish builds current directory.");
                 break;
-            case "server":
-                Console.WriteLine(
-                    @"Usage:
-    filversish server [dir]
-
-Start a local server using config.toml in specified directory.");
-                break;
             case "init":
                 Console.WriteLine(
                     @"Usage:
-    filversish init <dir>
+    filversish init [dir]
 
 Create template filversish site to specified directory.");
                 break;
@@ -44,9 +37,9 @@ Create a new post in current project.");
     filversish <command>
 
 Available Commands:
-    new       Create new things.
+    init      Initialize filversish directory.
+    new       Create a new post.
     build     Build the directory using config.toml.
-    server    Build and start a local server.
     help      Show help for commands.");
                 break;
         }
@@ -73,8 +66,8 @@ Available Commands:
         var c = Configuration.GetConfig(path);
 
         var pub = new Publisher(f, c);
-        var posts = new Post.Generator(c, f).Generate();
-        var pages = new Page.Generator(c, f).Generate(posts);
+        var posts = new PostGenerator(c, f).Generate();
+        var pages = new PageGenerator(c, f).Generate(posts);
 
         pub.Publish(posts, pages);
         Console.WriteLine("Completed.");
@@ -85,7 +78,7 @@ Available Commands:
         var f = new RealFileAccess();
         var defaultConfig = new Configuration
         {
-            ThemesPath = "./theme",
+            ThemePath = "./theme",
             PostsPath = "./posts",
             DestPath = "./dest",
             AssetsPath = "./assets",
@@ -96,6 +89,7 @@ Available Commands:
         f.WriteFile($"{path}/config.toml", Toml.FromModel(defaultConfig));
     }
 
+    // TODO: 動かないので動くようにする
     public static void StartServer(string path = ".")
     {
         if (!IsFilversishDir(path))
@@ -137,7 +131,7 @@ Available Commands:
         var f = new RealFileAccess();
         var c = Configuration.GetConfig();
 
-        var defaultMeta = new Post.Generator.PostMetaModel
+        var defaultMeta = new Post.PostGenerator.PostMetaModel
         {
             Author = c.Author,
             PublishedAt = DateTime.Now.ToString(CultureInfo.CurrentCulture),

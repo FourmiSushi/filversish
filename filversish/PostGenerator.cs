@@ -1,17 +1,17 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using filversish.Utils;
-using Markdig;
 using Scriban;
 using Tomlyn;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace filversish.Post;
+namespace filversish;
 
-public class Generator
+public class PostGenerator
 {
     private readonly IFileAccess _fileAccess;
     private readonly Configuration _configuration;
 
-    public Generator(Configuration configuration, IFileAccess fileAccess)
+    public PostGenerator(Configuration configuration, IFileAccess fileAccess)
     {
         _configuration = configuration;
         _fileAccess = fileAccess;
@@ -25,16 +25,16 @@ public class Generator
 
 
         var result = new List<Post>();
-        var template = _fileAccess.ReadFile($"{_configuration.ThemesPath}/post.html");
+        var template = _fileAccess.ReadFile($"{_configuration.ThemePath}/post.html");
         for (int i = 0; i < metas.Length; i++)
         {
             var meta = Toml.ToModel<PostMetaModel>(_fileAccess.ReadFile(metas[i]));
             var bodyRaw = _fileAccess.ReadFile(mds[i]);
             var p =
                 new Post(
-                    meta.Author ?? "Anonymous",
+                    meta.Author ?? _configuration.Author,
                     DateTime.Parse(meta.PublishedAt ?? "0001-01-01"),
-                    meta.Tags ?? Array.Empty<string>(),
+                    meta.Tags ?? new[] { _configuration.DefaultTag },
                     meta.Title ?? "Untitled",
                     bodyRaw,
                     $"{_configuration.DestPath}/posts/{Path.GetFileNameWithoutExtension(metas[i])}/index.html",
