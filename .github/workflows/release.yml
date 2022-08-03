@@ -12,12 +12,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Build
         run: ./build.sh
-      - name: Po
-        run: echo $(ls gh-build/linux; ls gh-build/macos)
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            gh-build/windows/filversish.exe
-            gh-build/linux/filversish
-            gh-build/macos/filversish
+            gh-build/windows/filversish_win-x64.exe
+            gh-build/linux/filversish_linux-x64
+            gh-build/macos/filversish_osx-x64
