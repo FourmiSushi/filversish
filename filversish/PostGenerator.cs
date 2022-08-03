@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using filversish.Utils;
 using Scriban;
 using Tomlyn;
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace filversish;
@@ -33,7 +35,7 @@ public class PostGenerator
             var p =
                 new Post(
                     meta.Author ?? _configuration.Author,
-                    DateTime.Parse(meta.PublishedAt ?? "0001-01-01"),
+                    DateTime.Parse(meta.PublishedAt ?? DateTime.Now.ToShortDateString()),
                     meta.Tags ?? new[] { _configuration.DefaultTag },
                     meta.Title ?? "Untitled",
                     bodyRaw,
@@ -56,5 +58,14 @@ public class PostGenerator
         public string? PublishedAt { get; set; }
         public string[]? Tags { get; set; }
         public string? Title { get; set; }
+
+        public static  PostMetaModel GetDefault(string title, Configuration configuration) =>
+            new PostMetaModel()
+            {
+                Author = configuration.Author,
+                PublishedAt = DateTime.Now.ToShortDateString(),
+                Tags = new[] { configuration.DefaultTag },
+                Title = title
+            };
     }
 }

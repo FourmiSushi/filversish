@@ -32,6 +32,12 @@ public class Publisher
         }
     }
 
+    private void PublishTagList(TagList tagList)
+    {
+        var html = ApplyCommonTemplate("タグ一覧", tagList.Html);
+        _fileAccess.WriteFile(tagList.SavePath, html);
+    }
+
     private void PublishAssets()
     {
         var s = $"{_configuration.AssetsPath}";
@@ -43,10 +49,11 @@ public class Publisher
         _fileAccess.CopyDirectory(s, d);
     }
 
-    public void Publish(List<Post> posts, List<Page> pages)
+    public void Publish(List<Post> posts, List<Page> pages, TagList tagList)
     {
         PublishPosts(posts);
         PublishPages(pages);
+        PublishTagList(tagList);
 
         _fileAccess.CopyFile($"{_configuration.DestPath}/pages/0/index.html", $"{_configuration.DestPath}/index.html");
 

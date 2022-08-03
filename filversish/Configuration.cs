@@ -31,7 +31,7 @@ public class Configuration
         return c;
     }
 
-    public static Configuration DefaultConfig => new Configuration
+    public static Configuration Default => new Configuration
     {
         ThemePath = "./theme",
         PostsPath = "./posts",
