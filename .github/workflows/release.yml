@@ -13,10 +13,11 @@ jobs:
       - name: Build
         run: ./build.sh
       - name: Po
-        run: echo $(ls)
+        run: echo $(ls gh-build/linux; ls gh-build/macos)
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            build.sh
             gh-build/windows/filversish.exe
+            gh-build/linux/filversish
+            gh-build/macos/filversish
