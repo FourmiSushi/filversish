@@ -19,3 +19,4 @@ jobs:
         with:
           files: |
             build.sh
+            gh-build/windows/filversish.exe
