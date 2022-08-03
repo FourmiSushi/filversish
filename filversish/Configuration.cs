@@ -37,9 +37,9 @@ public class Configuration
         PostsPath = "./posts",
         DestPath = "./dest",
         AssetsPath = "./assets",
-        Title = "Untitled blog",
+        Title = "untitled blog",
         Description = "description of the site",
         Author = Environment.UserName,
-        DefaultTag = "Untagged"
+        DefaultTag = "untagged"
     };
 }

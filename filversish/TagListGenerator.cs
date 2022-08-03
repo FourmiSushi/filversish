@@ -7,7 +7,6 @@ public class TagListGenerator
 {
     private readonly IFileAccess _fileAccess;
     private readonly Configuration _configuration;
-    private readonly PageGenerator _pageGenerator;
 
 
     public List<string> GetTags(List<Post> posts)
@@ -17,7 +16,14 @@ public class TagListGenerator
         {
             foreach (var tag in post.Tags)
             {
-                tags[tag] += 1;
+                if (tags.ContainsKey(tag))
+                {
+                    tags[tag] += 1;
+                }
+                else
+                {
+                    tags[tag] = 1;
+                }
             }
         }
 
@@ -29,7 +35,6 @@ public class TagListGenerator
     {
         _fileAccess = fileAccess;
         _configuration = configuration;
-        _pageGenerator = new PageGenerator(configuration, fileAccess);
     }
 
     public TagList Generate(List<Post> posts)
@@ -39,7 +44,14 @@ public class TagListGenerator
         {
             foreach (var tag in post.Tags)
             {
-                tags[tag] += 1;
+                if (tags.ContainsKey(tag))
+                {
+                    tags[tag] += 1;
+                }
+                else
+                {
+                    tags[tag] = 1;
+                }
             }
         }
 

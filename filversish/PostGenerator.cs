@@ -37,7 +37,7 @@ public class PostGenerator
                     meta.Author ?? _configuration.Author,
                     DateTime.Parse(meta.PublishedAt ?? DateTime.Now.ToShortDateString()),
                     meta.Tags ?? new[] { _configuration.DefaultTag },
-                    meta.Title ?? "Untitled",
+                    meta.Title ?? "untitled",
                     bodyRaw,
                     $"{_configuration.DestPath}/posts/{Path.GetFileNameWithoutExtension(metas[i])}/index.html",
                     $"/posts/{Path.GetFileNameWithoutExtension(metas[i])}"

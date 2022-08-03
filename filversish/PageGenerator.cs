@@ -39,7 +39,7 @@ public class PageGenerator
                 ? $"/tags/{tagName}/{i - 1}"
                 : $"/pages/{i - 1}";
 
-            var p = pagePosts.GetRange(i * 10, 10);
+            var p = pagePosts.GetRange(i * 10, Math.Min(10, pagePosts.Count % 10));
             var page = new Page(
                 p,
                 tagName,
