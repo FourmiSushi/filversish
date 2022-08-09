@@ -54,4 +54,14 @@ public class RealFileAccess : IFileAccess
     {
         File.Copy(fromPath, toPath, true);
     }
+
+    public void DeleteDirectory(string path)
+    {
+        if (Directory.Exists(path)) Directory.Delete(path, true);
+    }
+
+    public void DeleteFile(string path)
+    {
+        if (File.Exists(path)) File.Delete(path);
+    }
 }

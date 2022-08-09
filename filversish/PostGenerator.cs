@@ -31,6 +31,12 @@ public class PostGenerator
         for (int i = 0; i < metas.Length; i++)
         {
             var meta = Toml.ToModel<PostMetaModel>(_fileAccess.ReadFile(metas[i]));
+
+            if (meta.Draft ?? false)
+            {
+                continue;
+            }
+
             var bodyRaw = _fileAccess.ReadFile(mds[i]);
             var p =
                 new Post(
@@ -58,14 +64,16 @@ public class PostGenerator
         public string? PublishedAt { get; set; }
         public string[]? Tags { get; set; }
         public string? Title { get; set; }
+        public bool? Draft { get; set; }
 
-        public static  PostMetaModel GetDefault(string title, Configuration configuration) =>
-            new PostMetaModel()
+        public static PostMetaModel GetDefault(string title, Configuration configuration) =>
+            new()
             {
                 Author = configuration.Author,
                 PublishedAt = DateTime.Now.ToShortDateString(),
                 Tags = new[] { configuration.DefaultTag },
-                Title = title
+                Title = title,
+                Draft = true
             };
     }
 }

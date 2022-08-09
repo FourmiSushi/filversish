@@ -9,4 +9,6 @@ public interface IFileAccess
     void CopyDirectory(string fromPath, string toPath);
 
     void CopyFile(string fromPath, string toPath);
+    void DeleteDirectory(string path);
+    void DeleteFile(string path);
 }

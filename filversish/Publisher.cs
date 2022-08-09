@@ -51,6 +51,8 @@ public class Publisher
 
     public void Publish(List<Post> posts, List<Page> pages, TagList tagList)
     {
+        DeleteOldDest();
+
         PublishPosts(posts);
         PublishPages(pages);
         PublishTagList(tagList);
@@ -74,5 +76,10 @@ public class Publisher
         }
 
         return html;
+    }
+
+    private void DeleteOldDest()
+    {
+        _fileAccess.DeleteDirectory(_configuration.DestPath);
     }
 }
