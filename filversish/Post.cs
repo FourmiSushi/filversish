@@ -22,7 +22,7 @@ public class Post
     public Post(string author, DateTime publishedAt, string[] tags, string title, string bodyRaw, string savePath,
         string link)
     {
-        var pipeline = new MarkdownPipelineBuilder().UseSoftlineBreakAsHardlineBreak().Build();
+        var pipeline = new MarkdownPipelineBuilder().UseSoftlineBreakAsHardlineBreak().UseEmphasisExtras().Build();
 
         Author = author;
         PublishedAt = publishedAt;
