@@ -80,6 +80,7 @@ public class Publisher
 
     private void DeleteOldDest()
     {
+        if (!_fileAccess.IsExist(_configuration.DestPath)) return;
         foreach (var s in _fileAccess.GetDirectoriesIn(_configuration.DestPath))
         {
             _fileAccess.DeleteDirectory(s);
