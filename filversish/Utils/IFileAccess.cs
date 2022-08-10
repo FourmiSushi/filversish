@@ -5,6 +5,7 @@ public interface IFileAccess
     string ReadFile(string path);
     void WriteFile(string path, string contents);
     string[] GetFilesIn(string path);
+    string[] GetDirectoriesIn(string path);
     bool IsExist(string path);
     void CopyDirectory(string fromPath, string toPath);
 

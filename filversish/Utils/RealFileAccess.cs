@@ -19,6 +19,11 @@ public class RealFileAccess : IFileAccess
         return Directory.GetFiles(path);
     }
 
+    public string[] GetDirectoriesIn(string path)
+    {
+        return Directory.GetDirectories(path);
+    }
+
     public bool IsExist(string path)
     {
         return File.Exists(path) || Directory.Exists(path);
