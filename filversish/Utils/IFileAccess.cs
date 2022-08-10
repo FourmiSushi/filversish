@@ -11,4 +11,5 @@ public interface IFileAccess
     void CopyFile(string fromPath, string toPath);
     void DeleteDirectory(string path);
     void DeleteFile(string path);
+    DateTime GetLastModified(string path);
 }

@@ -10,6 +10,7 @@ public class Post
 {
     public string Author;
     public DateTime PublishedAt;
+    public DateTime? LastModified;
     public string[] Tags;
     public string Title;
     public string BodyRaw;
@@ -19,13 +20,14 @@ public class Post
     public string SavePath;
     public string Link;
 
-    public Post(string author, DateTime publishedAt, string[] tags, string title, string bodyRaw, string savePath,
-        string link)
+    public Post(string author, DateTime publishedAt, DateTime? lastModified, string[] tags, string title, string bodyRaw,
+        string savePath, string link)
     {
         var pipeline = new MarkdownPipelineBuilder().UseSoftlineBreakAsHardlineBreak().UseEmphasisExtras().Build();
 
         Author = author;
         PublishedAt = publishedAt;
+        LastModified = lastModified;
         Tags = tags;
         Title = title;
         BodyRaw = bodyRaw;
@@ -34,4 +36,5 @@ public class Post
         BodyPlain = Markdown.ToPlainText(bodyRaw, pipeline);
         BodyHtml = Markdown.ToHtml(bodyRaw, pipeline);
     }
+    
 }

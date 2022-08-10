@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using filversish.Utils;
 using Scriban;
 using Tomlyn;
@@ -42,6 +41,7 @@ public class PostGenerator
                 new Post(
                     meta.Author ?? _configuration.Author,
                     DateTime.Parse(meta.PublishedAt ?? DateTime.Now.ToShortDateString()),
+                    meta.LastModified == null ? null : DateTime.Parse(meta.LastModified),
                     meta.Tags ?? new[] { _configuration.DefaultTag },
                     meta.Title ?? "untitled",
                     bodyRaw,
@@ -62,6 +62,7 @@ public class PostGenerator
     {
         public string? Author { get; set; }
         public string? PublishedAt { get; set; }
+        public string? LastModified { get; set; }
         public string[]? Tags { get; set; }
         public string? Title { get; set; }
         public bool? Draft { get; set; }

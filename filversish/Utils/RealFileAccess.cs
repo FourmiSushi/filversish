@@ -64,4 +64,9 @@ public class RealFileAccess : IFileAccess
     {
         if (File.Exists(path)) File.Delete(path);
     }
+
+    public DateTime GetLastModified(string path)
+    {
+        return File.GetLastWriteTime(path);
+    }
 }
