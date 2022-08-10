@@ -15,3 +15,8 @@ mkdir -p gh-build/macos
 mv gh-build/windows/filversish.exe gh-build/windows/filversish_win-x64.exe
 mv gh-build/linux/filversish gh-build/linux/filversish_linux-x64
 mv gh-build/macos/filversish gh-build/macos/filversish_osx-x64
+
+first_tag=$(git tag --sort -creatordate | head -1)
+second_tag=$(git tag --sort -creatordate | head -2 | tail -1)
+
+git log --pretty=format:"%h %s by %an" second_tag..first_tag > changelog.txt
