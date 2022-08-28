@@ -34,10 +34,11 @@ public class SitemapGenerator
 
     private const string XmlTemplate = @"<?xml version=""1.0"" encoding=""UTF-8""?>
 <urlset xmlns=""http://www.sitemaps.org/schemas/sitemap/0.9"">
-{{ for u in urls }}<url>
-<loc>https://{{ host }}{{ u.link }}/</loc>
-<lastmod>{{ u.last_modified }}</lastmod>
-</url>{{ end }}
+{{ for u in urls }}    <url>
+        <loc>https://{{ host }}{{ u.link }}/</loc>
+        <lastmod>{{ u.last_modified }}</lastmod>
+    </url>
+{{ end }}
 </urlset>
 ";
 
