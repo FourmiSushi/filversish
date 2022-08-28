@@ -15,8 +15,8 @@ public class Configuration
     public string Title { get; set; }
     public string Description { get; set; }
     public string Author { get; set; }
-
     public string DefaultTag { get; set; }
+    public string Host { get; set; }
 
     public static Configuration GetConfig(string path = ".")
     {
@@ -40,6 +40,7 @@ public class Configuration
         Title = "untitled blog",
         Description = "description of the site",
         Author = Environment.UserName,
-        DefaultTag = "untagged"
+        DefaultTag = "untagged",
+        Host = "example.com"
     };
 }

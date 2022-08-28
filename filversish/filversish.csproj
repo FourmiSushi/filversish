@@ -8,11 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="GenHTTP.Core" Version="6.3.5"/>
-        <PackageReference Include="GenHTTP.Modules.StaticWebsites" Version="6.3.5"/>
-        <PackageReference Include="Markdig" Version="0.30.2"/>
-        <PackageReference Include="Scriban" Version="5.5.0"/>
-        <PackageReference Include="Tomlyn" Version="0.15.0"/>
+        <PackageReference Include="Markdig" Version="0.30.2" />
+        <PackageReference Include="Scriban" Version="5.5.0" />
+        <PackageReference Include="Tomlyn" Version="0.15.0" />
     </ItemGroup>
 
 </Project>

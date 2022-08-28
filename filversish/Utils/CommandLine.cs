@@ -67,7 +67,9 @@ public static class CommandLine
             pages.AddRange(pageGenerator.Generate(posts, tag));
         }
 
-        pub.Publish(posts, pages, tagList);
+        var sitemap = new SitemapGenerator(c).Generate(posts);
+
+        pub.Publish(posts, pages, tagList, sitemap);
         Console.WriteLine("Completed.");
     }
 

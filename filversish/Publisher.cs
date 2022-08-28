@@ -49,13 +49,19 @@ public class Publisher
         _fileAccess.CopyDirectory(s, d);
     }
 
-    public void Publish(List<Post> posts, List<Page> pages, TagList tagList)
+    private void PublishSitemap(string sitemap)
+    {
+        _fileAccess.WriteFile($"{_configuration.DestPath}/sitemap.xml", sitemap);
+    }
+
+    public void Publish(List<Post> posts, List<Page> pages, TagList tagList, string sitemap)
     {
         DeleteOldDest();
 
         PublishPosts(posts);
         PublishPages(pages);
         PublishTagList(tagList);
+        PublishSitemap(sitemap);
 
         _fileAccess.CopyFile($"{_configuration.DestPath}/pages/0/index.html", $"{_configuration.DestPath}/index.html");
 
