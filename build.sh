@@ -19,4 +19,4 @@ mv gh-build/macos/filversish gh-build/macos/filversish_osx-x64
 first_tag=$(git tag --sort -creatordate | head -1)
 second_tag=$(git tag --sort -creatordate | head -2 | tail -1)
 
-git log --pretty=format:"%h %s by %an" second_tag..first_tag > changelog.txt
+git log --pretty=format:"%h %s by %an" $second_tag..$first_tag > changelog.txt
