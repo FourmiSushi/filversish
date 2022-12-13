@@ -46,7 +46,8 @@ public class PostGenerator
                     meta.Title ?? "untitled",
                     bodyRaw,
                     $"{_configuration.DestPath}/posts/{Path.GetFileNameWithoutExtension(metas[i])}/index.html",
-                    $"/posts/{Path.GetFileNameWithoutExtension(metas[i])}"
+                    $"/posts/{Path.GetFileNameWithoutExtension(metas[i])}",
+                    meta.Description ?? ""
                 );
             var html = Template.Parse(template).Render(p);
             p.Html = html;
@@ -65,6 +66,8 @@ public class PostGenerator
         public string? LastModified { get; set; }
         public string[]? Tags { get; set; }
         public string? Title { get; set; }
+
+        public string? Description { get; set; }
         public bool? Draft { get; set; }
 
         public static PostMetaModel GetDefault(string title, Configuration configuration) =>
@@ -74,6 +77,7 @@ public class PostGenerator
                 PublishedAt = DateTime.Now.ToShortDateString(),
                 Tags = new[] { configuration.DefaultTag },
                 Title = title,
+                Description = "",
                 Draft = true
             };
     }
