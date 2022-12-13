@@ -3,6 +3,9 @@
 // ReSharper disable NotAccessedField.Global
 
 using Markdig;
+using Markdig.Renderers.Html;
+using Markdig.Syntax;
+using Markdig.Syntax.Inlines;
 
 namespace filversish;
 
@@ -29,7 +32,18 @@ public class Post
             .UseSoftlineBreakAsHardlineBreak()
             .UseEmphasisExtras()
             .UseAutoLinks()
+            .UsePipeTables()
             .Build();
+
+        var document = Markdown.Parse(bodyRaw, pipeline);
+        foreach (var d in document.Descendants())
+        {
+            if (d is AutolinkInline || d is LinkInline)
+            {
+                d.GetAttributes().AddPropertyIfNotExist("target", "_blank");
+                d.GetAttributes().AddPropertyIfNotExist("rel", "noopener");
+            }
+        }
 
         Author = author;
         PublishedAt = publishedAt;
@@ -41,6 +55,6 @@ public class Post
         Link = link;
         Description = description;
         BodyPlain = Markdown.ToPlainText(bodyRaw, pipeline);
-        BodyHtml = Markdown.ToHtml(bodyRaw, pipeline);
+        BodyHtml = document.ToHtml();
     }
 }
