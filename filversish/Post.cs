@@ -55,6 +55,6 @@ public class Post
         Link = link;
         Description = description;
         BodyPlain = Markdown.ToPlainText(bodyRaw, pipeline);
-        BodyHtml = document.ToHtml();
+        BodyHtml = document.ToHtml(pipeline);
     }
 }
