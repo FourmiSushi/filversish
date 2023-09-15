@@ -28,7 +28,7 @@ public class SitemapGenerator
         {
             _configuration.Host, urls
         });
-
+        
         return html;
     }
 
