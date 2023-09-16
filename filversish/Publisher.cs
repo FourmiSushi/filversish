@@ -18,7 +18,7 @@ public class Publisher
     {
         foreach (var post in posts)
         {
-            var html = ApplyCommonTemplate(post.Title, post.Html);
+            var html = ApplyCommonTemplate(post.Title, post.Html, post.Description);
             _fileAccess.WriteFile(post.SavePath, html);
         }
     }
@@ -27,14 +27,14 @@ public class Publisher
     {
         foreach (var page in pages)
         {
-            var html = ApplyCommonTemplate("", page.Html);
+            var html = ApplyCommonTemplate("", page.Html, _configuration.Description);
             _fileAccess.WriteFile(page.SavePath, html);
         }
     }
 
     private void PublishTagList(TagList tagList)
     {
-        var html = ApplyCommonTemplate("タグ一覧", tagList.Html);
+        var html = ApplyCommonTemplate("タグ一覧", tagList.Html, _configuration.Description);
         _fileAccess.WriteFile(tagList.SavePath, html);
     }
 
@@ -68,12 +68,12 @@ public class Publisher
         PublishAssets();
     }
 
-    private string ApplyCommonTemplate(string title, string body)
+    private string ApplyCommonTemplate(string title, string body, string description)
     {
         var template = _fileAccess.ReadFile($"{_configuration.ThemePath}/common.html");
         var html = Template.Parse(template).Render(new
         {
-            _configuration.Title, _configuration.Description, PostTitle = title, Body = body
+            _configuration.Title, _configuration.Description, PostTitle = title, Body = body, PageDescription = description
         });
 
         if (html == null)
