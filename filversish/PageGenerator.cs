@@ -24,20 +24,13 @@ public class PageGenerator
 
         var template = _fileAccess.ReadFile($"{_configuration.ThemePath}/page.html");
 
-
         var result = new List<Page>();
         var pageCount = Math.Ceiling(pagePosts.Count / 10.0);
         for (var i = 0; i < pageCount; i++)
         {
-            var link = tagName != null
-                ? $"/tags/{tagName}/{i}"
-                : $"/pages/{i}";
-            var nextPageLink = tagName != null
-                ? $"/tags/{tagName}/{i + 1}"
-                : $"/pages/{i + 1}";
-            var previousPageLink = tagName != null
-                ? $"/tags/{tagName}/{i - 1}"
-                : $"/pages/{i - 1}";
+            var link = tagName != null ? $"/tags/{tagName}/{i}" : $"/pages/{i}";
+            var nextPageLink = tagName != null ? $"/tags/{tagName}/{i + 1}" : $"/pages/{i + 1}";
+            var previousPageLink = tagName != null ? $"/tags/{tagName}/{i - 1}" : $"/pages/{i - 1}";
 
             var p = pagePosts.GetRange(i * 10, Math.Min(10, pagePosts.Count % 10));
             var page = new Page(
@@ -54,9 +47,7 @@ public class PageGenerator
 
             if (i == 0)
             {
-                var firstLink = tagName != null
-                    ? $"/tags/{tagName}"
-                    : $"/pages";
+                var firstLink = tagName != null ? $"/tags/{tagName}" : $"/pages";
                 var firstPage = new Page(
                     p,
                     tagName,

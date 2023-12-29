@@ -4,13 +4,14 @@ namespace filversish.Utils;
 
 public static class CommandLine
 {
-    private static Dictionary<string, Action<string[]>> _commands = new()
-    {
-        { "help", Help },
-        { "init", Init },
-        { "new", NewPost },
-        { "build", Build }
-    };
+    private static Dictionary<string, Action<string[]>> _commands =
+        new()
+        {
+            { "help", Help },
+            { "init", Init },
+            { "new", NewPost },
+            { "build", Build }
+        };
 
     public static void InvokeCommand(string[] args)
     {
@@ -67,9 +68,16 @@ public static class CommandLine
             pages.AddRange(pageGenerator.Generate(posts, tag));
         }
 
+        Index? index = null;
+        if (c.UseIndexPage)
+        {
+            var indexGenerator = new IndexGenerator(c, f);
+            index = indexGenerator.Generate(posts);
+        }
+
         var sitemap = new SitemapGenerator(c).Generate(posts);
 
-        pub.Publish(posts, pages, tagList, sitemap);
+        pub.Publish(posts, pages, index, tagList, sitemap);
         Console.WriteLine("Completed.");
     }
 
@@ -115,7 +123,8 @@ Available Commands:
     init      Initialize filversish directory.
     new       Create a new post.
     build     Build the directory using config.toml.
-    help      Show help for commands.");
+    help      Show help for commands."
+            );
             return;
         }
 
@@ -127,21 +136,24 @@ Available Commands:
     filversish build [dir]
 
 Build specified directory using config.toml in it.
-If 'dir' is null, filversish builds current directory.");
+If 'dir' is null, filversish builds current directory."
+                );
                 break;
             case "init":
                 Console.WriteLine(
                     @"Usage:
     filversish init [dir]
 
-Create template filversish site to specified directory.");
+Create template filversish site to specified directory."
+                );
                 break;
             case "new":
                 Console.WriteLine(
                     @"Usage:
     filversish new <post-title>
 
-Create a new post in current project.");
+Create a new post in current project."
+                );
                 break;
         }
     }

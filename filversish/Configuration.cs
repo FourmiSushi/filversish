@@ -17,6 +17,7 @@ public class Configuration
     public string Author { get; set; }
     public string DefaultTag { get; set; }
     public string Host { get; set; }
+    public bool UseIndexPage { get; set; }
 
     public static Configuration GetConfig(string path = ".")
     {
@@ -31,16 +32,18 @@ public class Configuration
         return c;
     }
 
-    public static Configuration Default => new Configuration
-    {
-        ThemePath = "./theme",
-        PostsPath = "./posts",
-        DestPath = "./dest",
-        AssetsPath = "./assets",
-        Title = "untitled blog",
-        Description = "description of the site",
-        Author = Environment.UserName,
-        DefaultTag = "untagged",
-        Host = "example.com"
-    };
+    public static Configuration Default =>
+        new Configuration
+        {
+            ThemePath = "./theme",
+            PostsPath = "./posts",
+            DestPath = "./dest",
+            AssetsPath = "./assets",
+            Title = "untitled blog",
+            Description = "description of the site",
+            Author = Environment.UserName,
+            DefaultTag = "untagged",
+            Host = "example.com",
+            UseIndexPage = false,
+        };
 }

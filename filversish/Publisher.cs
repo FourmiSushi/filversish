@@ -32,6 +32,12 @@ public class Publisher
         }
     }
 
+    private void PublishIndex(Index index)
+    {
+        var html = ApplyCommonTemplate("", index.Html, _configuration.Description);
+        _fileAccess.WriteFile(index.SavePath, html);
+    }
+
     private void PublishTagList(TagList tagList)
     {
         var html = ApplyCommonTemplate("タグ一覧", tagList.Html, _configuration.Description);
@@ -43,8 +49,8 @@ public class Publisher
         var s = $"{_configuration.AssetsPath}";
         var d = $"{_configuration.DestPath}/assets";
 
-        if (!Directory.Exists(_configuration.AssetsPath)) return;
-
+        if (!Directory.Exists(_configuration.AssetsPath))
+            return;
 
         _fileAccess.CopyDirectory(s, d);
     }
@@ -54,7 +60,13 @@ public class Publisher
         _fileAccess.WriteFile($"{_configuration.DestPath}/sitemap.xml", sitemap);
     }
 
-    public void Publish(List<Post> posts, List<Page> pages, TagList tagList, string sitemap)
+    public void Publish(
+        List<Post> posts,
+        List<Page> pages,
+        Index? index,
+        TagList tagList,
+        string sitemap
+    )
     {
         DeleteOldDest();
 
@@ -63,7 +75,17 @@ public class Publisher
         PublishTagList(tagList);
         PublishSitemap(sitemap);
 
-        _fileAccess.CopyFile($"{_configuration.DestPath}/pages/0/index.html", $"{_configuration.DestPath}/index.html");
+        if (!_configuration.UseIndexPage || index == null)
+        {
+            _fileAccess.CopyFile(
+                $"{_configuration.DestPath}/pages/index.html",
+                $"{_configuration.DestPath}/index.html"
+            );
+        }
+        else
+        {
+            PublishIndex(index);
+        }
 
         PublishAssets();
     }
@@ -71,10 +93,18 @@ public class Publisher
     private string ApplyCommonTemplate(string title, string body, string description)
     {
         var template = _fileAccess.ReadFile($"{_configuration.ThemePath}/common.html");
-        var html = Template.Parse(template).Render(new
-        {
-            _configuration.Title, _configuration.Description, PostTitle = title, Body = body, PageDescription = description
-        });
+        var html = Template
+            .Parse(template)
+            .Render(
+                new
+                {
+                    _configuration.Title,
+                    _configuration.Description,
+                    PostTitle = title,
+                    Body = body,
+                    PageDescription = description
+                }
+            );
 
         if (html == null)
         {
@@ -86,7 +116,8 @@ public class Publisher
 
     private void DeleteOldDest()
     {
-        if (!_fileAccess.IsExist(_configuration.DestPath)) return;
+        if (!_fileAccess.IsExist(_configuration.DestPath))
+            return;
         foreach (var s in _fileAccess.GetDirectoriesIn(_configuration.DestPath))
         {
             _fileAccess.DeleteDirectory(s);

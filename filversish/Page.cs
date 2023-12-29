@@ -18,10 +18,15 @@ public class Page
 
     public string? TagName;
 
-    public Page(List<Post> posts, string? tagName, int pageNumber, string savePath, string link,
+    public Page(
+        List<Post> posts,
+        string? tagName,
+        int pageNumber,
+        string savePath,
+        string link,
         string? previousPageLink,
-        string? nextPageLink)
-
+        string? nextPageLink
+    )
     {
         Posts = posts;
         PageNumber = pageNumber;
