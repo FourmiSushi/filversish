@@ -3,15 +3,8 @@ using Scriban;
 
 namespace filversish;
 
-public class SitemapGenerator
+public class SitemapGenerator(Configuration configuration)
 {
-    private readonly Configuration _configuration;
-
-    public SitemapGenerator(Configuration configuration)
-    {
-        _configuration = configuration;
-    }
-
     public string Generate(List<Post> posts)
     {
         var urls = new List<Url>
@@ -26,7 +19,7 @@ public class SitemapGenerator
 
         var html = Template.Parse(XmlTemplate).Render(new
         {
-            _configuration.Host, urls
+            configuration.Host, urls
         });
         
         return html;
@@ -42,15 +35,9 @@ public class SitemapGenerator
 </urlset>
 ";
 
-    public class Url
+    public class Url(string link, DateTime lastModified)
     {
-        public string Link;
-        public string LastModified;
-
-        public Url(string link, DateTime lastModified)
-        {
-            Link = HttpUtility.UrlEncode(link).Replace("%2f", "/");
-            LastModified = lastModified.ToString("yyyy-MM-ddTHH:mmzzz");
-        }
+        public string Link = HttpUtility.UrlEncode(link).Replace("%2f", "/");
+        public string LastModified = lastModified.ToString("yyyy-MM-ddTHH:mmzzz");
     }
 }

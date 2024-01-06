@@ -3,26 +3,18 @@ using Scriban;
 
 namespace filversish;
 
-public class IndexGenerator
+public class IndexGenerator(Configuration configuration, IFileAccess fileAccess)
 {
-    private readonly IFileAccess _fileAccess;
-    private readonly Configuration _configuration;
-
-    public IndexGenerator(Configuration configuration, IFileAccess fileAccess)
+    public Index Generate(IEnumerable<Post> posts)
     {
-        _configuration = configuration;
-        _fileAccess = fileAccess;
-    }
+        var pickups = posts
+            .Where(p => p.PickUp)
+            .OrderByDescending(p => p.PublishedAt).ToList();
 
-    public Index Generate(List<Post> posts)
-    {
-        // TODO: ピックアップ記事機能の実装
-        var pickups = posts.OrderByDescending(p => p.PublishedAt).ToList();
+        var template = fileAccess.ReadFile($"{configuration.ThemePath}/index.html");
 
-        var template = _fileAccess.ReadFile($"{_configuration.ThemePath}/index.html");
-
-        var link = "";
-        var result = new Index(pickups, $"{_configuration.DestPath}{link}/index.html", link);
+        const string link = "";
+        var result = new Index(pickups, $"{configuration.DestPath}{link}/index.html", link);
         var html = Template.Parse(template).Render(result);
         result.Html = html;
 

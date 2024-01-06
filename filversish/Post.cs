@@ -17,6 +17,7 @@ public class Post
     public string[] Tags;
     public string Title;
     public string Description;
+    public bool PickUp;
     public string BodyRaw;
     public string BodyPlain;
     public string BodyHtml;
@@ -24,9 +25,18 @@ public class Post
     public string SavePath;
     public string Link;
 
-    public Post(string author, DateTime publishedAt, DateTime? lastModified, string[] tags, string title,
+    public Post(
+        string author,
+        DateTime publishedAt,
+        DateTime? lastModified,
+        string[] tags,
+        string title,
         string bodyRaw,
-        string savePath, string link, string description)
+        string savePath, 
+        string link,
+        string description,
+        bool pickUp
+    )
     {
         var pipeline = new MarkdownPipelineBuilder()
             .UseSoftlineBreakAsHardlineBreak()
@@ -54,6 +64,7 @@ public class Post
         SavePath = savePath;
         Link = link;
         Description = description;
+        PickUp = pickUp;
         BodyPlain = Markdown.ToPlainText(bodyRaw, pipeline);
         BodyHtml = document.ToHtml(pipeline);
     }

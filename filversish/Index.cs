@@ -1,17 +1,10 @@
 namespace filversish;
 
-public class Index
+public class Index(List<Post> posts, string savePath, string link)
 {
-    public List<Post> Posts;
-    public string Link;
-    public string SavePath;
+    public List<Post> Posts = posts;
+    public string Link = link;
+    public string SavePath = savePath;
 
     public string Html = null!;
-
-    public Index(List<Post> posts, string savePath, string link)
-    {
-        Posts = posts;
-        SavePath = savePath;
-        Link = link;
-    }
 }

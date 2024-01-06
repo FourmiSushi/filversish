@@ -3,23 +3,14 @@ using Scriban;
 
 namespace filversish;
 
-public class Publisher
+public class Publisher(IFileAccess fileAccess, Configuration configuration)
 {
-    private readonly IFileAccess _fileAccess;
-    private readonly Configuration _configuration;
-
-    public Publisher(IFileAccess fileAccess, Configuration configuration)
-    {
-        _fileAccess = fileAccess;
-        _configuration = configuration;
-    }
-
     private void PublishPosts(List<Post> posts)
     {
         foreach (var post in posts)
         {
             var html = ApplyCommonTemplate(post.Title, post.Html, post.Description);
-            _fileAccess.WriteFile(post.SavePath, html);
+            fileAccess.WriteFile(post.SavePath, html);
         }
     }
 
@@ -27,37 +18,37 @@ public class Publisher
     {
         foreach (var page in pages)
         {
-            var html = ApplyCommonTemplate("", page.Html, _configuration.Description);
-            _fileAccess.WriteFile(page.SavePath, html);
+            var html = ApplyCommonTemplate("", page.Html, configuration.Description);
+            fileAccess.WriteFile(page.SavePath, html);
         }
     }
 
     private void PublishIndex(Index index)
     {
-        var html = ApplyCommonTemplate("", index.Html, _configuration.Description);
-        _fileAccess.WriteFile(index.SavePath, html);
+        var html = ApplyCommonTemplate("", index.Html, configuration.Description);
+        fileAccess.WriteFile(index.SavePath, html);
     }
 
     private void PublishTagList(TagList tagList)
     {
-        var html = ApplyCommonTemplate("タグ一覧", tagList.Html, _configuration.Description);
-        _fileAccess.WriteFile(tagList.SavePath, html);
+        var html = ApplyCommonTemplate("タグ一覧", tagList.Html, configuration.Description);
+        fileAccess.WriteFile(tagList.SavePath, html);
     }
 
     private void PublishAssets()
     {
-        var s = $"{_configuration.AssetsPath}";
-        var d = $"{_configuration.DestPath}/assets";
+        var s = $"{configuration.AssetsPath}";
+        var d = $"{configuration.DestPath}/assets";
 
-        if (!Directory.Exists(_configuration.AssetsPath))
+        if (!Directory.Exists(configuration.AssetsPath))
             return;
 
-        _fileAccess.CopyDirectory(s, d);
+        fileAccess.CopyDirectory(s, d);
     }
 
     private void PublishSitemap(string sitemap)
     {
-        _fileAccess.WriteFile($"{_configuration.DestPath}/sitemap.xml", sitemap);
+        fileAccess.WriteFile($"{configuration.DestPath}/sitemap.xml", sitemap);
     }
 
     public void Publish(
@@ -75,11 +66,11 @@ public class Publisher
         PublishTagList(tagList);
         PublishSitemap(sitemap);
 
-        if (!_configuration.UseIndexPage || index == null)
+        if (!configuration.UseIndexPage || index == null)
         {
-            _fileAccess.CopyFile(
-                $"{_configuration.DestPath}/pages/index.html",
-                $"{_configuration.DestPath}/index.html"
+            fileAccess.CopyFile(
+                $"{configuration.DestPath}/pages/index.html",
+                $"{configuration.DestPath}/index.html"
             );
         }
         else
@@ -92,14 +83,14 @@ public class Publisher
 
     private string ApplyCommonTemplate(string title, string body, string description)
     {
-        var template = _fileAccess.ReadFile($"{_configuration.ThemePath}/common.html");
+        var template = fileAccess.ReadFile($"{configuration.ThemePath}/common.html");
         var html = Template
             .Parse(template)
             .Render(
                 new
                 {
-                    _configuration.Title,
-                    _configuration.Description,
+                    configuration.Title,
+                    configuration.Description,
                     PostTitle = title,
                     Body = body,
                     PageDescription = description
@@ -116,16 +107,16 @@ public class Publisher
 
     private void DeleteOldDest()
     {
-        if (!_fileAccess.IsExist(_configuration.DestPath))
+        if (!fileAccess.IsExist(configuration.DestPath))
             return;
-        foreach (var s in _fileAccess.GetDirectoriesIn(_configuration.DestPath))
+        foreach (var s in fileAccess.GetDirectoriesIn(configuration.DestPath))
         {
-            _fileAccess.DeleteDirectory(s);
+            fileAccess.DeleteDirectory(s);
         }
 
-        foreach (var s in _fileAccess.GetFilesIn(_configuration.DestPath))
+        foreach (var s in fileAccess.GetFilesIn(configuration.DestPath))
         {
-            _fileAccess.DeleteFile(s);
+            fileAccess.DeleteFile(s);
         }
     }
 }

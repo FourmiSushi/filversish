@@ -3,17 +3,8 @@ using Scriban;
 
 namespace filversish;
 
-public class PageGenerator
+public class PageGenerator(Configuration configuration, IFileAccess fileAccess)
 {
-    private readonly IFileAccess _fileAccess;
-    private readonly Configuration _configuration;
-
-    public PageGenerator(Configuration configuration, IFileAccess fileAccess)
-    {
-        _configuration = configuration;
-        _fileAccess = fileAccess;
-    }
-
     public List<Page> Generate(List<Post> posts, string? tagName)
     {
         var pagePosts = posts.OrderByDescending(p => p.PublishedAt).ToList();
@@ -22,7 +13,7 @@ public class PageGenerator
             pagePosts = pagePosts.Where(p => p.Tags.Contains(tagName)).ToList();
         }
 
-        var template = _fileAccess.ReadFile($"{_configuration.ThemePath}/page.html");
+        var template = fileAccess.ReadFile($"{configuration.ThemePath}/page.html");
 
         var result = new List<Page>();
         var pageCount = Math.Ceiling(pagePosts.Count / 10.0);
@@ -37,7 +28,7 @@ public class PageGenerator
                 p,
                 tagName,
                 i,
-                $"{_configuration.DestPath}{link}/index.html",
+                $"{configuration.DestPath}{link}/index.html",
                 link,
                 i > 0 ? previousPageLink : null,
                 i < pageCount - 1 ? nextPageLink : null
@@ -52,7 +43,7 @@ public class PageGenerator
                     p,
                     tagName,
                     i,
-                    $"{_configuration.DestPath}{firstLink}/index.html",
+                    $"{configuration.DestPath}{firstLink}/index.html",
                     firstLink,
                     null,
                     nextPageLink

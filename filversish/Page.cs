@@ -4,38 +4,24 @@
 
 namespace filversish;
 
-public class Page
+public class Page(
+    List<Post> posts,
+    string? tagName,
+    int pageNumber,
+    string savePath,
+    string link,
+    string? previousPageLink,
+    string? nextPageLink)
 {
-    public List<Post> Posts;
-    public int PageNumber;
+    public List<Post> Posts = posts;
+    public int PageNumber = pageNumber;
 
-    public string Link;
-    public string? NextPageLink;
-    public string? PreviousPageLink;
+    public string Link = link;
+    public string? NextPageLink = nextPageLink;
+    public string? PreviousPageLink = previousPageLink;
 
-    public string SavePath;
+    public string SavePath = savePath;
     public string Html = null!;
 
-    public string? TagName;
-
-    public Page(
-        List<Post> posts,
-        string? tagName,
-        int pageNumber,
-        string savePath,
-        string link,
-        string? previousPageLink,
-        string? nextPageLink
-    )
-    {
-        Posts = posts;
-        PageNumber = pageNumber;
-        SavePath = savePath;
-
-        TagName = tagName;
-
-        Link = link;
-        PreviousPageLink = previousPageLink;
-        NextPageLink = nextPageLink;
-    }
+    public string? TagName = tagName;
 }

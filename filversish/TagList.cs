@@ -4,17 +4,10 @@
 
 namespace filversish;
 
-public class TagList
+public class TagList(string html, string link, string savePath)
 {
-    public string Html;
+    public string Html = html;
 
-    public string Link;
-    public string SavePath;
-
-    public TagList(string html, string link, string savePath)
-    {
-        Html = html;
-        Link = link;
-        SavePath = savePath;
-    }
+    public string Link = link;
+    public string SavePath = savePath;
 }
